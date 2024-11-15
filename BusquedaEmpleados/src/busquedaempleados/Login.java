@@ -29,36 +29,66 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void ingresar(){
+    public class Login extends javax.swing.JFrame {
         ResultSet rs;
-        String usuario = txtUsuario.getText();
-        String password = txtPassword.getText();
-        if(usuario.equals("") || password.equals("")){
-            JOptionPane.showMessageDialog(null, "LLene los dos campo de usuario y contraseña");
+        Conexion cn;
+        Connection con;
+        PreparedStatement ps;
+    
+        /**
+         * Creates new form Login
+         */
+        public Login() {
+            initComponents();
         }
-        else{
+        
+        public void ingresar() {
+            String usuario = txtUsuario.getText().trim();
+            String password = txtPassword.getText().trim();
+            
+            // Verificar campos vacíos
+            if (usuario.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Llene los campos de usuario y contraseña", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
             try {
-                 cn = new Conexion();
-        con = cn.obtenerconexion();
-                //Peticion
-                PreparedStatement ps = con.prepareStatement("SELECT FirstNames, Password FROM usuarios where FirstNames='"+usuario+"' AND Password='"+password+"'");
-                //Cajon de enviado
-                // rs un dato de devolucion
+                // Conexión a la base de datos
+                cn = new Conexion();
+                con = cn.obtenerconexion();
+                
+                // Consulta segura con parámetros
+                String sql = "SELECT FirstNames, Password FROM usuarios WHERE FirstNames = ? AND Password = ?";
+                ps = con.prepareStatement(sql);
+                ps.setString(1, usuario);
+                ps.setString(2, password);
+                
                 rs = ps.executeQuery();
-                if(rs.next()){
-                   this.dispose();
-                   JOptionPane.showMessageDialog(null, "Comprobado");
-                }else{
-                    JOptionPane.showMessageDialog(null, "Contraseña o Usaurio incorrecto");
+                
+                // Verificar resultados
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();  // Cierra la ventana actual
+                } else {
+                    JOptionPane.showMessageDialog(this, "Contraseña o Usuario incorrecto", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
                     txtPassword.setText("");
                     txtUsuario.setText("");
                 }
+                
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null, "Error al ingresar   "+ex.getMessage());
+                JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + ex.getMessage(), "Error de conexión", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                // Cerrar recursos
+                try {
+                    if (rs != null) rs.close();
+                    if (ps != null) ps.close();
+                    if (con != null) con.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
