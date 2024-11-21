@@ -2,20 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package Admin_login;
+package Admin_registration;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author diegi
  */
-public class login extends javax.swing.JDialog {
+public class registrer extends javax.swing.JDialog {
 
     /**
-     * Creates new form login
+     * Creates new form registrer
      */
-    public login(java.awt.Frame parent, boolean modal) {
+    public registrer(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -31,55 +30,63 @@ public class login extends javax.swing.JDialog {
 
         txtCorreo = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        txtpassword = new javax.swing.JPasswordField();
+        txtContrasena = new javax.swing.JPasswordField();
+        txtConfirmar = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtCorreo.setBorder(null);
-        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 270, 30));
+        txtCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCorreoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 260, 30));
 
         jButton1.setBackground(new java.awt.Color(153, 204, 255));
-        jButton1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 17)); // NOI18N
-        jButton1.setText("Iniciar Sesion");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
+        jButton1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        jButton1.setText("Registrarse");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 400, 230, 70));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 470, 220, 60));
 
-        jButton2.setFont(new java.awt.Font("Microsoft JhengHei UI Light", 1, 18)); // NOI18N
-        jButton2.setText("Registro");
-        jButton2.setBorder(null);
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 483, 230, 60));
+        txtContrasena.setBorder(null);
+        getContentPane().add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 332, 260, 30));
 
-        txtpassword.setBorder(null);
-        getContentPane().add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 352, 260, 30));
+        txtConfirmar.setBorder(null);
+        getContentPane().add(txtConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 420, 260, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Login.png"))); // NOI18N
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Registration.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        String Correo=txtCorreo.getText();
-       String Contrasena=txtpassword.getText();
+       String Contrasena=txtContrasena.getText();
+       String Confirmar=txtConfirmar.getText();
        
        String emailPattern = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
 
-    if (Correo.isEmpty() || Contrasena.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "DEBE DE COMPLETAR LOS DATOS");
+        if (Correo.isEmpty() || Contrasena.isEmpty() || Confirmar.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "DEBE DE COMPLETAR EL REGISTRO");
     } else if (!Pattern.matches(emailPattern, Correo)) {
         JOptionPane.showMessageDialog(null, "DEBE INGRESAR UN CORREO ELECTRÓNICO VÁLIDO");
+    } else if (!Contrasena.equals(Confirmar)) {
+        JOptionPane.showMessageDialog(null, "LAS CONTRASEÑAS NO COINCIDEN. POR FAVOR VERIFIQUE");
     } else {
-        // Aquí colocas la lógica que sigue si todo está correcto
+        // Si todo está correcto
         JOptionPane.showMessageDialog(null, "Datos correctos");
     }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -101,20 +108,20 @@ public class login extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                login dialog = new login(new javax.swing.JFrame(), true);
+                registrer dialog = new registrer(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -128,9 +135,9 @@ public class login extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPasswordField txtConfirmar;
+    private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtCorreo;
-    private javax.swing.JPasswordField txtpassword;
     // End of variables declaration//GEN-END:variables
 }
